@@ -1,29 +1,21 @@
 import { Badge, Card, Flex, Space, Text, Title } from "@mantine/core"
-import { CharacterEntity, NoteEntity } from "crossbell.js"
-import { useCharacter, useNote } from "@crossbell/indexer"
+import { CharacterEntity, FeedEntity, NoteEntity } from "crossbell.js"
+import { useCharacter } from "@crossbell/indexer"
 import { extractCharacterName } from "@crossbell/util-metadata"
 
 import { Avatar } from "./Avatar"
 import { MarkdownRenderer } from "./MarkdownRenderer"
 import Time from "./Time"
+import Link from "next/link"
 
 export type FeedNodeProps = {
   note: NoteEntity
-  character?: CharacterEntity | null
+  character?: FeedEntity | null
 }
 
-export function FeedNote({
-  note: initialNote,
-  character: initialCharacter,
-}: FeedNodeProps) {
-  const { data: fetchedNote } = useNote(
-    initialNote.characterId,
-    initialNote.noteId,
-  )
-
-  const note = fetchedNote ?? initialNote
+export function FeedNote({ note, character: initialCharacter }: FeedNodeProps) {
   const { characterId } = note
-  const { data: character, isLoading } = useCharacter(
+  const { data: character } = useCharacter(
     characterId ?? initialCharacter?.characterId,
     {
       initialData: initialCharacter,
@@ -33,13 +25,19 @@ export function FeedNote({
   const characterName = extractCharacterName(character)
 
   const tags = note.metadata?.content?.tags?.map((tag) => (
-    <Badge radius="xs" key={tag}>
+    <Badge
+      radius="xs"
+      key={tag}
+      component={Link}
+      href={`/tag/${tag}`}
+      className="cursor-pointer"
+    >
       #{tag}
     </Badge>
   ))
 
   return (
-    <Card radius="lg" withBorder>
+    <Card radius="lg" className="h-fit" withBorder>
       <div>
         {note.metadata?.content?.title && (
           <Title order={3} className="my-2">
@@ -57,7 +55,7 @@ export function FeedNote({
         {characterName && <Text>{characterName}</Text>}
       </Flex>
 
-      <MarkdownRenderer displayMode="normal">
+      <MarkdownRenderer displayMode="normal" collapsible>
         {note.metadata?.content?.content ?? ""}
       </MarkdownRenderer>
 

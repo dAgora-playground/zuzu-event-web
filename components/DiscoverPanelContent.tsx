@@ -1,25 +1,52 @@
-import { useTrending } from "@/lib/trending"
-import React from "react"
+import { Card, CardSection, Flex, Grid, Title } from "@mantine/core"
+import { LoadMore } from "@crossbell/ui"
+import { useFeedsByTag } from "@/lib/useFeedsByTag"
 import { FeedNote } from "./FeedNode"
-import { Flex } from "@mantine/core"
 
-const DiscoverPanelContent = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useTrending()
-
-  const flattedData = React.useMemo(
-    () => data?.pages.flatMap((page) => page.items) ?? [],
-    [data],
-  )
-
+const DiscoverPanelContent = ({
+  data: feeds,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+}: ReturnType<typeof useFeedsByTag>) => {
   return (
-    <Flex direction="column" gap="xs">
-      {flattedData.map(
-        (note) =>
-          !!note && (
-            <FeedNote note={note} key={`${note.characterId}-${note.noteId}`} />
-          ),
-      )}
-    </Flex>
+    <Grid grow>
+      <Grid.Col span={7}>
+        <Flex direction="column" gap="xs">
+          {feeds.map(
+            (note) =>
+              !!note && (
+                <FeedNote
+                  // @ts-expect-error Address typing
+                  note={note}
+                  key={`${note.characterId}-${note.noteId}`}
+                />
+              ),
+          )}
+
+          <LoadMore
+            onLoadMore={() => fetchNextPage()}
+            hasMore={Boolean(hasNextPage)}
+            isLoading={isFetchingNextPage}
+          />
+        </Flex>
+      </Grid.Col>
+
+      <Grid.Col span={1}>
+        <Card radius="lg" className="h-fit" withBorder>
+          <Card.Section p="lg">
+            <Title>Treading Tags</Title>
+          </Card.Section>
+
+          <Flex direction="column">
+            <div># ---</div>
+            <div># ---</div>
+            <div># ---</div>
+            <div># ---</div>
+          </Flex>
+        </Card>
+      </Grid.Col>
+    </Grid>
   )
 }
 

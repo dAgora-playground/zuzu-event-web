@@ -1,6 +1,7 @@
 import { PropsWithChildren, useMemo, useState } from "react"
 import {
   Blockquote,
+  Button,
   Code,
   Divider,
   List,
@@ -33,9 +34,10 @@ export function MarkdownRenderer({
 }>) {
   const { ref, height } = useElementSize()
 
-  const isExceeded = height >= 500
+  const isExceeded = height >= 80
 
   const [collapsed, setCollapsed] = useState(collapsible)
+  console.log("🚀 ~ file: MarkdownRenderer.tsx:39 ~ collapsed:", collapsed)
 
   const fontSize = displayMode === "main" ? 17 : 15
   const lineHeight =
@@ -59,7 +61,7 @@ export function MarkdownRenderer({
           className={clsx(
             "markdown-renderer overflow-hidden transition-all-200 break-all",
             {
-              "max-h-500px": collapsed,
+              "max-h-[80px]": collapsed,
               "max-h-none": !collapsed,
             },
           )}
@@ -274,13 +276,19 @@ export function MarkdownRenderer({
           </ReactMarkdown>
         </article>
 
-        {/* {showReadMoreButton && (
-          <div className="absolute left-0 right-0 bottom-0 z-10 flex items-center justify-center py-3">
-            <Button radius="xl" onClick={() => setCollapsed((x) => !x)}>
+        {showReadMoreButton && (
+          <div className="absolute left-0 right-0 bottom-0 z-10 flex items-center justify-center pt-2">
+            <Button
+              radius="xl"
+              color="gray"
+              variant="light"
+              className="bg-gray-100"
+              onClick={() => setCollapsed((x) => !x)}
+            >
               Read More
             </Button>
           </div>
-        )} */}
+        )}
       </div>
     )
   }, [children, collapsible, showReadMoreButton])
