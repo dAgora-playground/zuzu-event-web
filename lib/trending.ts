@@ -51,7 +51,6 @@ export function useTrending() {
   return useInfiniteQuery<GetTrendingNotesResult>(
     [...SCOPE_KEY],
     ({ pageParam: cursorId }) => {
-    console.log("🚀 ~ file: trending.ts:63 ~ useTrending ~ cursorId:", cursorId)
     return getTrendingNotes({ limit: 20, cursorId })
     },
     {

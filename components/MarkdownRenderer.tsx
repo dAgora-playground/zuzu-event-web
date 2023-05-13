@@ -37,7 +37,6 @@ export function MarkdownRenderer({
   const isExceeded = height >= 80
 
   const [collapsed, setCollapsed] = useState(collapsible)
-  console.log("🚀 ~ file: MarkdownRenderer.tsx:39 ~ collapsed:", collapsed)
 
   const fontSize = displayMode === "main" ? 17 : 15
   const lineHeight =

@@ -46,14 +46,16 @@ export function FeedNote({ note, character: initialCharacter }: FeedNodeProps) {
         )}
       </div>
 
-      <Flex align="center" gap="xs">
+      <Link
+        href={`/character/${character?.characterId ?? characterId}`}
+        className="flex items-center gap-2"
+      >
         <Avatar
           character={character as CharacterEntity}
           characterId={characterId}
         />
-
         {characterName && <Text>{characterName}</Text>}
-      </Flex>
+      </Link>
 
       <MarkdownRenderer displayMode="normal" collapsible>
         {note.metadata?.content?.content ?? ""}
