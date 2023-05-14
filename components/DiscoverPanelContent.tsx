@@ -35,7 +35,7 @@ const DiscoverPanelContent = ({
       <Grid.Col span={1}>
         <Card radius="lg" className="h-fit" withBorder>
           <Card.Section p="lg">
-            <Title>Treading Tags</Title>
+            <Title size="1.4rem">Treading Tags</Title>
           </Card.Section>
 
           <Flex direction="column">
