@@ -76,7 +76,7 @@ export function EventNote({
     const serverProps = extractServerProps(note);
 
     return (
-        <Card radius="lg" className="h-fit" withBorder>
+        <Card radius="lg" className="h-fit mb-6" withBorder>
             <Link href={`/event/${characterId}/${noteId}`}>
                 <div>
                     {note.metadata?.content?.title && (
